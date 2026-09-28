@@ -1,0 +1,302 @@
+:root {
+  --navy: #0c2340;
+  --sand: #e8dcc8;
+  --shell: #f5ebe0;
+  --shell-border: #c4a882;
+  --water-deep: #0a3d4a;
+  --panel-bg: rgba(12, 35, 64, 0.92);
+  --text-light: #f4f7fa;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Source Sans 3", system-ui, sans-serif;
+  background: #fff;
+}
+
+/* —— Splash —— */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  cursor: pointer;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+
+.splash--exit {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash__text {
+  margin: 0 1.5rem;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  font-weight: 600;
+  color: var(--navy);
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.splash__hint {
+  margin: 1rem 0 0;
+  font-size: 0.85rem;
+  color: rgba(12, 35, 64, 0.45);
+  text-transform: lowercase;
+  letter-spacing: 0.12em;
+}
+
+/* —— Site —— */
+.site {
+  position: fixed;
+  inset: 0;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+.site--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.site--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* —— Underwater scene —— */
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--water-deep);
+  overflow: hidden;
+}
+
+.scene__frames {
+  position: absolute;
+  inset: 0;
+}
+
+.scene__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.scene__frame--active {
+  opacity: 1;
+}
+
+/* —— Bubbles (continuous drift) —— */
+.bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bubble {
+  position: absolute;
+  bottom: -5%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.08));
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  animation: rise linear infinite;
+}
+
+.bubble:nth-child(1) { left: 8%; width: 12px; height: 12px; animation-duration: 14s; animation-delay: 0s; }
+.bubble:nth-child(2) { left: 22%; width: 8px; height: 8px; animation-duration: 11s; animation-delay: 2s; }
+.bubble:nth-child(3) { left: 41%; width: 14px; height: 14px; animation-duration: 16s; animation-delay: 1s; }
+.bubble:nth-child(4) { left: 55%; width: 6px; height: 6px; animation-duration: 9s; animation-delay: 3s; }
+.bubble:nth-child(5) { left: 68%; width: 10px; height: 10px; animation-duration: 13s; animation-delay: 0.5s; }
+.bubble:nth-child(6) { left: 79%; width: 7px; height: 7px; animation-duration: 12s; animation-delay: 4s; }
+.bubble:nth-child(7) { left: 91%; width: 11px; height: 11px; animation-duration: 15s; animation-delay: 2.5s; }
+.bubble:nth-child(8) { left: 33%; width: 5px; height: 5px; animation-duration: 10s; animation-delay: 5s; }
+
+@keyframes rise {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-110vh) translateX(20px);
+    opacity: 0;
+  }
+}
+
+/* —— Shell nav —— */
+.shells {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(4%, 8vh, 12%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(0.5rem, 2vw, 1.25rem);
+  padding: 0 1rem;
+  z-index: 5;
+}
+
+.shell {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  font-weight: 600;
+  color: var(--navy);
+  background: linear-gradient(145deg, var(--shell) 0%, #dcc9b0 100%);
+  border: 2px solid var(--shell-border);
+  border-radius: 50% 50% 45% 45% / 55% 55% 40% 40%;
+  padding: 0.65rem 1.1rem 0.5rem;
+  min-width: 5.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.shell:nth-child(1) { transform: rotate(-4deg); }
+.shell:nth-child(2) { transform: rotate(3deg) translateY(-4px); }
+.shell:nth-child(3) { transform: rotate(-2deg) translateY(2px); }
+.shell:nth-child(4) { transform: rotate(5deg); }
+.shell:nth-child(5) { transform: rotate(-3deg) translateY(-2px); }
+
+.shell:hover,
+.shell:focus-visible {
+  transform: scale(1.06) rotate(0deg);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 20px rgba(255, 255, 255, 0.25);
+  outline: none;
+}
+
+/* —— Content panel —— */
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(420px, 92vw);
+  height: 100%;
+  z-index: 20;
+  background: var(--panel-bg);
+  color: var(--text-light);
+  padding: 2.5rem 1.75rem 2rem;
+  overflow-y: auto;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.4);
+  transform: translateX(100%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.panel--open {
+  transform: translateX(0);
+}
+
+.panel__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  font-size: 2rem;
+  line-height: 1;
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.panel__close:hover {
+  opacity: 1;
+}
+
+.panel h2 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.panel p,
+.panel li {
+  line-height: 1.65;
+  font-size: 1rem;
+  opacity: 0.92;
+}
+
+.panel a {
+  color: #9fd4e8;
+}
+
+.panel ul {
+  padding-left: 1.2rem;
+}
+
+.panel .card {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.panel .card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.1rem;
+}
+
+/* —— Audio —— */
+.audio-ui {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 15;
+}
+
+.audio-ui__btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(12, 35, 64, 0.65);
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.audio-ui__btn[aria-pressed="true"] {
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash,
+  .site,
+  .scene__frame,
+  .panel {
+    transition: none;
+  }
+  .bubble {
+    animation: none;
+    display: none;
+  }
+}
