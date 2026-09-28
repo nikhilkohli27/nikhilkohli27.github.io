@@ -48,13 +48,24 @@
     `,
   };
 
+  function preloadFrames() {
+    frames.forEach((img) => {
+      if (img.complete) return;
+      const clone = new Image();
+      clone.src = img.currentSrc || img.src;
+    });
+  }
+
   function startFrameCycle() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (frames.length < 2) return;
+    preloadFrames();
     frameTimer = window.setInterval(() => {
-      frames[frameIndex].classList.remove("scene__frame--active");
-      frameIndex = (frameIndex + 1) % frames.length;
-      frames[frameIndex].classList.add("scene__frame--active");
+      const prev = frameIndex;
+      const next = (frameIndex + 1) % frames.length;
+      frames[next].classList.add("scene__frame--active");
+      frames[prev].classList.remove("scene__frame--active");
+      frameIndex = next;
     }, FRAME_INTERVAL_MS);
   }
 

@@ -99,12 +99,15 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.35s ease;
+  opacity: 1;
+  visibility: hidden;
+  z-index: 0;
+  /* Hard cut between frames — no opacity fade (avoids dark flash on water bg) */
 }
 
 .scene__frame--active {
-  opacity: 1;
+  visibility: visible;
+  z-index: 1;
 }
 
 /* —— Bubbles (continuous drift) —— */
@@ -291,7 +294,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .splash,
   .site,
-  .scene__frame,
   .panel {
     transition: none;
   }
